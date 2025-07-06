@@ -1,6 +1,6 @@
-
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Coffee } from 'lucide-react';
 
 interface Participant {
   id: string;
