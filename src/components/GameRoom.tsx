@@ -150,26 +150,26 @@ export const GameRoom = ({ roomId, userName, onBack }: GameRoomProps) => {
   const readyCount = participants.filter(p => p.isReady).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50">
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Button 
             variant="outline" 
             onClick={onBack} 
-            className="flex items-center gap-2 border-2 border-black hover:bg-black hover:text-white font-bold"
+            className="flex items-center gap-2 border-2 border-amber-800 text-amber-800 hover:bg-amber-800 hover:text-white font-bold"
           >
             <ArrowLeft className="h-4 w-4" />
             홈으로
           </Button>
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-black">방 #{roomId}</h1>
-            <p className="text-gray-600 text-lg">참가자 {participants.length}명 • 준비완료 {readyCount}명</p>
+            <h1 className="text-3xl font-bold text-amber-900">방 #{roomId}</h1>
+            <p className="text-amber-700 text-lg">참가자 {participants.length}명 • 준비완료 {readyCount}명</p>
           </div>
           <Button 
             variant="outline" 
             onClick={() => setShowChat(!showChat)}
-            className="flex items-center gap-2 border-2 border-black hover:bg-black hover:text-white font-bold"
+            className="flex items-center gap-2 border-2 border-amber-800 text-amber-800 hover:bg-amber-800 hover:text-white font-bold"
           >
             <MessageCircle className="h-4 w-4" />
             채팅
@@ -180,8 +180,8 @@ export const GameRoom = ({ roomId, userName, onBack }: GameRoomProps) => {
           {/* Main Game Area */}
           <div className="lg:col-span-2 space-y-8">
             {/* Roulette Wheel */}
-            <Card className="border-4 border-black shadow-2xl bg-white">
-              <CardHeader className="text-center bg-black text-white">
+            <Card className="border-2 border-amber-300 shadow-2xl bg-white">
+              <CardHeader className="text-center bg-gradient-to-r from-amber-800 to-orange-700 text-white">
                 <CardTitle className="text-2xl font-bold flex items-center justify-center gap-3">
                   <Coffee className="h-7 w-7" />
                   커피 룰렛
@@ -199,7 +199,7 @@ export const GameRoom = ({ roomId, userName, onBack }: GameRoomProps) => {
                   <Button
                     onClick={startRoulette}
                     disabled={readyCount < 2 || isSpinning}
-                    className="bg-black hover:bg-gray-800 text-white px-10 py-4 text-xl font-bold shadow-lg transition-all duration-300"
+                    className="bg-amber-800 hover:bg-amber-700 text-white px-10 py-4 text-xl font-bold shadow-lg transition-all duration-300"
                   >
                     <Play className="mr-3 h-6 w-6" />
                     {isSpinning ? '룰렛 돌리는 중...' : '룰렛 시작!'}
@@ -209,7 +209,7 @@ export const GameRoom = ({ roomId, userName, onBack }: GameRoomProps) => {
                     <Button
                       onClick={resetGame}
                       variant="outline"
-                      className="border-2 border-black text-black hover:bg-black hover:text-white px-8 py-4 text-xl font-bold"
+                      className="border-2 border-amber-800 text-amber-800 hover:bg-amber-800 hover:text-white px-8 py-4 text-xl font-bold"
                     >
                       <RotateCcw className="mr-3 h-5 w-5" />
                       다시 하기
@@ -221,16 +221,16 @@ export const GameRoom = ({ roomId, userName, onBack }: GameRoomProps) => {
 
             {/* Current User Controls */}
             {currentUser && (
-              <Card className="border-4 border-gray-300 shadow-xl bg-white">
-                <CardHeader className="bg-gray-100">
-                  <CardTitle className="text-xl text-black font-bold">
+              <Card className="border-2 border-amber-200 shadow-xl bg-white">
+                <CardHeader className="bg-amber-50">
+                  <CardTitle className="text-xl text-amber-900 font-bold">
                     {currentUser.name}님의 상태
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6 p-6">
-                  <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
-                    <span className="text-lg font-medium">당첨 확률:</span>
-                    <Badge variant="secondary" className="text-2xl px-4 py-2 bg-black text-white font-bold">
+                  <div className="flex items-center justify-between bg-amber-50 p-4 rounded-lg border border-amber-200">
+                    <span className="text-lg font-medium text-amber-800">당첨 확률:</span>
+                    <Badge variant="secondary" className="text-2xl px-4 py-2 bg-amber-800 text-white font-bold">
                       {currentUser.winProbability}%
                     </Badge>
                   </div>
@@ -250,7 +250,7 @@ export const GameRoom = ({ roomId, userName, onBack }: GameRoomProps) => {
                     <Button
                       onClick={() => setShowMiniGame(true)}
                       variant="outline"
-                      className="border-2 border-black text-black hover:bg-black hover:text-white text-xl py-4 px-6 font-bold"
+                      className="border-2 border-amber-800 text-amber-800 hover:bg-amber-800 hover:text-white text-xl py-4 px-6 font-bold"
                     >
                       <Gamepad2 className="mr-2 h-5 w-5" />
                       미니게임
@@ -263,9 +263,9 @@ export const GameRoom = ({ roomId, userName, onBack }: GameRoomProps) => {
 
           {/* Participants Panel */}
           <div className="space-y-8">
-            <Card className="border-4 border-gray-300 shadow-xl bg-white">
-              <CardHeader className="bg-gray-100">
-                <CardTitle className="text-xl text-black font-bold flex items-center gap-2">
+            <Card className="border-2 border-amber-200 shadow-xl bg-white">
+              <CardHeader className="bg-amber-50">
+                <CardTitle className="text-xl text-amber-900 font-bold flex items-center gap-2">
                   <Users className="h-6 w-6" />
                   참가자 목록
                 </CardTitle>
@@ -278,21 +278,21 @@ export const GameRoom = ({ roomId, userName, onBack }: GameRoomProps) => {
                       className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all duration-200 ${
                         participant.isReady 
                           ? 'bg-green-50 border-green-400 shadow-md' 
-                          : 'bg-gray-50 border-gray-300'
+                          : 'bg-amber-50 border-amber-200'
                       }`}
                     >
                       <div className="flex items-center gap-4">
                         <div className={`w-4 h-4 rounded-full ${
                           participant.isReady ? 'bg-green-500 animate-pulse' : 'bg-gray-400'
                         }`} />
-                        <span className="font-bold text-lg">
+                        <span className="font-bold text-lg text-amber-900">
                           {participant.name}
                           {participant.id === currentUser?.id && " (나)"}
                         </span>
                       </div>
                       <Badge 
                         variant="outline" 
-                        className="text-lg px-3 py-1 border-2 border-black font-bold"
+                        className="text-lg px-3 py-1 border-2 border-amber-800 text-amber-800 font-bold"
                       >
                         {participant.winProbability}%
                       </Badge>

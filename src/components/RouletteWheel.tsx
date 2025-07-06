@@ -86,7 +86,7 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
       {sparkles.map((sparkle) => (
         <motion.div
           key={sparkle.id}
-          className="absolute w-2 h-2 bg-yellow-400 rounded-full pointer-events-none"
+          className="absolute w-2 h-2 bg-yellow-400 rounded-full pointer-events-none z-10"
           style={{ left: sparkle.x, top: sparkle.y }}
           initial={{ scale: 0, opacity: 1 }}
           animate={{ scale: 1, opacity: 0 }}
@@ -141,17 +141,40 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
               const textAngle = (segment.startAngle + segment.endAngle) / 2;
               const textAngleRad = (textAngle - 90) * (Math.PI / 180);
               
-              // Adjust text positioning based on segment size
-              const isSmallSegment = segment.segmentAngle < 45;
-              const textRadius = isSmallSegment ? 70 : 60;
+              // 텍스트 겹침 방지를 위한 개선된 위치 계산
+              const isVerySmallSegment = segment.segmentAngle < 30;
+              const isSmallSegment = segment.segmentAngle < 50;
+              
+              if (isVerySmallSegment) {
+                // 매우 작은 세그먼트는 텍스트를 표시하지 않음
+                return (
+                  <g key={segment.id}>
+                    <path
+                      d={pathData}
+                      fill={segment.color}
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                  </g>
+                );
+              }
+              
+              const textRadius = isSmallSegment ? 55 : 50;
               const textX = 100 + textRadius * Math.cos(textAngleRad);
               const textY = 100 + textRadius * Math.sin(textAngleRad);
               
-              // Determine text size based on segment size
-              const nameFontSize = isSmallSegment ? "11" : "13";
-              const probFontSize = isSmallSegment ? "10" : "12";
-              const nameOffset = isSmallSegment ? -3 : -5;
-              const probOffset = isSmallSegment ? 8 : 10;
+              // 텍스트 크기를 세그먼트 크기에 따라 조정
+              const nameFontSize = isSmallSegment ? "9" : "11";
+              const probFontSize = isSmallSegment ? "8" : "10";
+              
+              // 텍스트 간격 조정
+              const nameOffset = isSmallSegment ? -4 : -6;
+              const probOffset = isSmallSegment ? 6 : 8;
+              
+              // 텍스트 길이 제한
+              const displayName = segment.name.length > (isSmallSegment ? 4 : 6) 
+                ? segment.name.substring(0, isSmallSegment ? 4 : 6) + '...' 
+                : segment.name;
               
               return (
                 <g key={segment.id}>
@@ -161,37 +184,34 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
                     stroke="white"
                     strokeWidth="2"
                   />
-                  {/* Only show text if segment is large enough */}
-                  {segment.segmentAngle > 20 && (
-                    <>
-                      {/* Name text */}
-                      <text
-                        x={textX}
-                        y={textY + nameOffset}
-                        fill="white"
-                        fontSize={nameFontSize}
-                        fontWeight="bold"
-                        textAnchor="middle"
-                        dominantBaseline="central"
-                        transform={`rotate(${textAngle}, ${textX}, ${textY + nameOffset})`}
-                      >
-                        {segment.name.length > 6 ? segment.name.substring(0, 6) + '...' : segment.name}
-                      </text>
-                      {/* Probability text */}
-                      <text
-                        x={textX}
-                        y={textY + probOffset}
-                        fill="white"
-                        fontSize={probFontSize}
-                        fontWeight="bold"
-                        textAnchor="middle"
-                        dominantBaseline="central"
-                        transform={`rotate(${textAngle}, ${textX}, ${textY + probOffset})`}
-                      >
-                        {segment.winProbability}%
-                      </text>
-                    </>
-                  )}
+                  {/* 이름 텍스트 */}
+                  <text
+                    x={textX}
+                    y={textY + nameOffset}
+                    fill="white"
+                    fontSize={nameFontSize}
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    transform={`rotate(${textAngle}, ${textX}, ${textY + nameOffset})`}
+                    style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
+                  >
+                    {displayName}
+                  </text>
+                  {/* 확률 텍스트 */}
+                  <text
+                    x={textX}
+                    y={textY + probOffset}
+                    fill="white"
+                    fontSize={probFontSize}
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    transform={`rotate(${textAngle}, ${textX}, ${textY + probOffset})`}
+                    style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
+                  >
+                    {segment.winProbability}%
+                  </text>
                 </g>
               );
             })}
