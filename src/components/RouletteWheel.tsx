@@ -17,25 +17,49 @@ interface RouletteWheelProps {
 
 export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWheelProps) => {
   const [rotation, setRotation] = useState(0);
+  const [sparkles, setSparkles] = useState<Array<{id: number, x: number, y: number}>>([]);
   
   useEffect(() => {
     if (isSpinning) {
       const finalRotation = 1800 + Math.random() * 720; // 5-7 full rotations
       setRotation(finalRotation);
+      
+      // Add sparkle effect during spin
+      const sparkleInterval = setInterval(() => {
+        setSparkles(prev => [
+          ...prev.slice(-10), // Keep only last 10 sparkles
+          {
+            id: Date.now(),
+            x: Math.random() * 300,
+            y: Math.random() * 300
+          }
+        ]);
+      }, 100);
+      
+      setTimeout(() => {
+        clearInterval(sparkleInterval);
+        setSparkles([]);
+      }, 3000);
+      
+      return () => clearInterval(sparkleInterval);
     }
   }, [isSpinning]);
 
   if (participants.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 bg-gray-100 rounded-lg">
-        <p className="text-gray-500">참가자가 없습니다</p>
+      <div className="flex items-center justify-center h-80 bg-gray-50 rounded-xl border-2 border-gray-200">
+        <div className="text-center">
+          <div className="text-6xl mb-4">☕</div>
+          <p className="text-gray-500 text-lg">참가자가 없습니다</p>
+          <p className="text-gray-400 text-sm">게임에 참가해보세요!</p>
+        </div>
       </div>
     );
   }
 
   const colors = [
-    '#F97316', '#EAB308', '#84CC16', '#06B6D4', '#8B5CF6', 
-    '#EC4899', '#F59E0B', '#10B981', '#3B82F6', '#F43F5E'
+    '#000000', '#404040', '#606060', '#808080', '#202020', 
+    '#101010', '#303030', '#505050', '#707070', '#909090'
   ];
 
   const totalProbability = participants.reduce((sum, p) => sum + p.winProbability, 0);
@@ -55,20 +79,42 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
   });
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center relative">
+      {/* Sparkles during spin */}
+      {sparkles.map((sparkle) => (
+        <motion.div
+          key={sparkle.id}
+          className="absolute w-2 h-2 bg-yellow-400 rounded-full pointer-events-none"
+          style={{ left: sparkle.x, top: sparkle.y }}
+          initial={{ scale: 0, opacity: 1 }}
+          animate={{ scale: 1, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          ✨
+        </motion.div>
+      ))}
+      
       <div className="relative">
-        {/* Pointer */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2 z-10">
-          <div className="w-0 h-0 border-l-4 border-r-4 border-b-8 border-l-transparent border-r-transparent border-b-red-500"></div>
+        {/* Enhanced Pointer */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4 z-20">
+          <div className="relative">
+            <div className="w-0 h-0 border-l-6 border-r-6 border-b-12 border-l-transparent border-r-transparent border-b-red-600 drop-shadow-lg"></div>
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-red-600 rounded-full"></div>
+          </div>
         </div>
         
-        {/* Wheel */}
+        {/* Enhanced Wheel */}
         <motion.div
-          className="w-64 h-64 rounded-full relative overflow-hidden border-4 border-orange-300 shadow-lg"
+          className="w-80 h-80 rounded-full relative overflow-hidden border-8 border-black shadow-2xl bg-white"
           animate={{ rotate: rotation }}
           transition={{ 
             duration: isSpinning ? 3 : 0,
             ease: "easeOut"
+          }}
+          style={{
+            boxShadow: isSpinning 
+              ? '0 0 50px rgba(0,0,0,0.3), 0 0 100px rgba(255,215,0,0.2)' 
+              : '0 20px 40px rgba(0,0,0,0.2)'
           }}
         >
           <svg width="100%" height="100%" viewBox="0 0 200 200">
@@ -101,28 +147,31 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
                     d={pathData}
                     fill={segment.color}
                     stroke="white"
-                    strokeWidth="2"
+                    strokeWidth="3"
                   />
+                  {/* Name text */}
                   <text
                     x={textX}
-                    y={textY}
+                    y={textY - 5}
+                    fill="white"
+                    fontSize="14"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    transform={`rotate(${textAngle}, ${textX}, ${textY - 5})`}
+                  >
+                    {segment.name.length > 5 ? segment.name.substring(0, 5) + '...' : segment.name}
+                  </text>
+                  {/* Probability text */}
+                  <text
+                    x={textX}
+                    y={textY + 10}
                     fill="white"
                     fontSize="12"
                     fontWeight="bold"
                     textAnchor="middle"
                     dominantBaseline="central"
-                    transform={`rotate(${textAngle}, ${textX}, ${textY})`}
-                  >
-                    {segment.name.length > 4 ? segment.name.substring(0, 4) + '...' : segment.name}
-                  </text>
-                  <text
-                    x={textX}
-                    y={textY + 15}
-                    fill="white"
-                    fontSize="10"
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    transform={`rotate(${textAngle}, ${textX}, ${textY + 15})`}
+                    transform={`rotate(${textAngle}, ${textX}, ${textY + 10})`}
                   >
                     {segment.winProbability}%
                   </text>
@@ -130,28 +179,42 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
               );
             })}
           </svg>
+          
+          {/* Center circle */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-black rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+            <Coffee className="h-8 w-8 text-white" />
+          </div>
         </motion.div>
       </div>
       
-      {/* Status */}
-      <div className="mt-6 text-center">
+      {/* Enhanced Status */}
+      <div className="mt-8 text-center">
         {isSpinning && (
-          <div className="text-orange-600 font-semibold text-lg animate-pulse">
-            룰렛이 돌아가고 있습니다...
-          </div>
+          <motion.div 
+            className="text-black font-bold text-2xl"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 0.5, repeat: Infinity }}
+          >
+            🎲 룰렛이 돌아가고 있습니다... 🎲
+          </motion.div>
         )}
         {winner && !isSpinning && (
-          <div className="bg-gradient-to-r from-green-100 to-emerald-100 p-4 rounded-lg border border-green-200">
-            <div className="text-2xl font-bold text-green-700 mb-1">
-              🎉 {winner.name} 당첨! 🎉
+          <motion.div 
+            className="bg-black text-white p-6 rounded-xl border-4 border-gray-300 shadow-xl"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, type: "spring" }}
+          >
+            <div className="text-4xl font-bold mb-2">
+              🏆 {winner.name} 당첨! 🏆
             </div>
-            <div className="text-green-600">
+            <div className="text-xl">
               커피 한턱 내주세요! ☕
             </div>
-          </div>
+          </motion.div>
         )}
         {!isSpinning && !winner && participants.length > 0 && (
-          <div className="text-gray-600">
+          <div className="text-gray-600 text-lg">
             룰렛을 시작하려면 '룰렛 시작!' 버튼을 클릭하세요
           </div>
         )}

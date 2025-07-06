@@ -45,7 +45,6 @@ export const RoomManager = ({ roomId, onJoinRoom }: RoomManagerProps) => {
           url: shareUrl,
         });
       } catch (err) {
-        // Fallback to copy
         copyRoomCode();
       }
     } else {
@@ -54,28 +53,28 @@ export const RoomManager = ({ roomId, onJoinRoom }: RoomManagerProps) => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="border-orange-200 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-lg text-orange-800 flex items-center gap-2">
-            <Users className="h-5 w-5" />
+    <div className="space-y-8">
+      <Card className="border-4 border-black shadow-2xl bg-white">
+        <CardHeader className="bg-black text-white">
+          <CardTitle className="text-xl font-bold flex items-center gap-2">
+            <Users className="h-6 w-6" />
             방 관리
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6 p-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-lg font-bold text-black mb-3">
               현재 방 코드
             </label>
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="text-lg px-4 py-2 font-mono">
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="text-2xl px-6 py-3 font-mono font-bold border-2 border-black">
                 {roomId}
               </Badge>
               <Button
                 onClick={copyRoomCode}
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-1"
+                className="flex items-center gap-2 border-2 border-black hover:bg-black hover:text-white font-bold"
               >
                 {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 {copied ? '복사됨' : '복사'}
@@ -85,29 +84,29 @@ export const RoomManager = ({ roomId, onJoinRoom }: RoomManagerProps) => {
 
           <Button
             onClick={shareRoom}
-            className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white"
+            className="w-full bg-black hover:bg-gray-800 text-white py-4 text-lg font-bold"
           >
             방 링크 공유하기
           </Button>
         </CardContent>
       </Card>
 
-      <Card className="border-orange-200 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-lg text-orange-800">
+      <Card className="border-4 border-gray-300 shadow-xl bg-white">
+        <CardHeader className="bg-gray-100">
+          <CardTitle className="text-xl text-black font-bold">
             다른 방 참여하기
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6 p-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-lg font-bold text-black mb-3">
               방 코드 입력
             </label>
             <Input
               placeholder="방 코드를 입력하세요"
               value={joinCode}
               onChange={(e) => setJoinCode(e.target.value)}
-              className="border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+              className="border-2 border-gray-300 focus:border-black focus:ring-black text-lg py-3"
             />
           </div>
 
@@ -115,7 +114,7 @@ export const RoomManager = ({ roomId, onJoinRoom }: RoomManagerProps) => {
             onClick={() => joinCode && onJoinRoom(joinCode.toUpperCase())}
             disabled={!joinCode.trim()}
             variant="outline"
-            className="w-full border-orange-300 text-orange-700 hover:bg-orange-50"
+            className="w-full border-2 border-black text-black hover:bg-black hover:text-white py-4 text-lg font-bold"
           >
             방 참여하기
           </Button>

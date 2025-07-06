@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Coffee, Users, Gamepad2, MessageCircle, Plus, Hash } from 'lucide-react';
+import { Coffee, Users, Gamepad2, MessageCircle, Plus, Hash, Zap } from 'lucide-react';
 import { RoomManager } from '@/components/RoomManager';
 import { GameRoom } from '@/components/GameRoom';
 
@@ -51,96 +51,107 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center mb-16">
           <div className="flex justify-center items-center gap-3 mb-6">
-            <Coffee className="h-12 w-12 text-orange-600" />
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+            <div className="p-3 bg-black rounded-full">
+              <Coffee className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-6xl font-bold text-black">
               BeanRoulette
             </h1>
           </div>
-          <p className="text-xl text-gray-700 mb-4">
+          <p className="text-2xl text-gray-700 mb-4 font-medium">
             랜덤 커피 러시 플랫폼 ☕
           </p>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            "누가 살 건데?" 회의 끝나고 머뭇대지 말고, 한 방에 커피 당번 뽑고 가벼운 게임으로 운빨까지 조절하는 팀 놀이터!
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            "누가 살 건데?" 회의 끝나고 머뭇대지 말고,<br/>
+            한 방에 커피 당번 뽑고 가벼운 게임으로 운빨까지 조절하는 팀 놀이터!
           </p>
         </div>
 
         {/* Features Cards */}
-        <div className="grid md:grid-cols-4 gap-6 mb-12">
-          <Card className="text-center border-orange-200 shadow-lg hover:shadow-xl transition-shadow">
+        <div className="grid md:grid-cols-4 gap-8 mb-16">
+          <Card className="text-center border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <CardHeader>
-              <Users className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-              <CardTitle className="text-lg">방 생성 & 초대</CardTitle>
+              <div className="mx-auto w-16 h-16 bg-black rounded-full flex items-center justify-center mb-4">
+                <Users className="h-8 w-8 text-white" />
+              </div>
+              <CardTitle className="text-xl text-black">방 생성 & 초대</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">아무나 방 파서 링크 뿌리면 끝</p>
+              <p className="text-gray-600">아무나 방 파서 링크 뿌리면 끝</p>
             </CardContent>
           </Card>
           
-          <Card className="text-center border-orange-200 shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="text-center border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <CardHeader>
-              <Coffee className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-              <CardTitle className="text-lg">랜덤 추첨</CardTitle>
+              <div className="mx-auto w-16 h-16 bg-black rounded-full flex items-center justify-center mb-4">
+                <Coffee className="h-8 w-8 text-white" />
+              </div>
+              <CardTitle className="text-xl text-black">랜덤 추첨</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">참가 버튼 누른 사람 중 한 놈 당첨</p>
+              <p className="text-gray-600">참가 버튼 누른 사람 중 한 놈 당첨</p>
             </CardContent>
           </Card>
           
-          <Card className="text-center border-orange-200 shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="text-center border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <CardHeader>
-              <Gamepad2 className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-              <CardTitle className="text-lg">미니게임</CardTitle>
+              <div className="mx-auto w-16 h-16 bg-black rounded-full flex items-center justify-center mb-4">
+                <Gamepad2 className="h-8 w-8 text-white" />
+              </div>
+              <CardTitle className="text-xl text-black">미니게임</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">가위바위보, 탭 타이밍, 숫자 맞히기</p>
+              <p className="text-gray-600">가위바위보, 탭 타이밍, 숫자 맞히기</p>
             </CardContent>
           </Card>
           
-          <Card className="text-center border-orange-200 shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="text-center border-2 border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <CardHeader>
-              <MessageCircle className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-              <CardTitle className="text-lg">실시간 채팅</CardTitle>
+              <div className="mx-auto w-16 h-16 bg-black rounded-full flex items-center justify-center mb-4">
+                <MessageCircle className="h-8 w-8 text-white" />
+              </div>
+              <CardTitle className="text-xl text-black">실시간 채팅</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600">결과까지 수다 떨 공간</p>
+              <p className="text-gray-600">결과까지 수다 떨 공간</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Main Action Area */}
         <div className="max-w-2xl mx-auto">
-          <Card className="border-orange-200 shadow-xl">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl text-orange-800">시작하기</CardTitle>
-              <CardDescription>이름을 입력하고 방을 만들거나 참여하세요</CardDescription>
+          <Card className="border-2 border-gray-300 shadow-2xl bg-white">
+            <CardHeader className="text-center bg-black text-white">
+              <CardTitle className="text-3xl">시작하기</CardTitle>
+              <CardDescription className="text-gray-300">이름을 입력하고 방을 만들거나 참여하세요</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-8 p-8">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-lg font-semibold text-black mb-3">
                   닉네임
                 </label>
                 <Input
                   placeholder="이름을 입력하세요"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
-                  className="text-lg py-3 border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                  className="text-xl py-4 border-2 border-gray-300 focus:border-black focus:ring-black"
                 />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid md:grid-cols-2 gap-6">
                 {/* Create Room */}
                 <div className="space-y-4">
                   <Button
                     onClick={createRoom}
-                    className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white py-6 text-lg font-semibold shadow-lg"
+                    className="w-full bg-black hover:bg-gray-800 text-white py-6 text-xl font-bold shadow-lg transition-all duration-300 hover:shadow-xl"
                     disabled={!userName.trim()}
                   >
-                    <Plus className="mr-2 h-5 w-5" />
+                    <Plus className="mr-3 h-6 w-6" />
                     새 방 만들기
                   </Button>
                 </div>
@@ -152,16 +163,16 @@ const Index = () => {
                       placeholder="방 코드 입력"
                       value={roomCode}
                       onChange={(e) => setRoomCode(e.target.value)}
-                      className="border-orange-200 focus:border-orange-400 focus:ring-orange-400"
+                      className="border-2 border-gray-300 focus:border-black focus:ring-black text-lg py-3"
                     />
                   </div>
                   <Button
                     onClick={joinRoom}
                     variant="outline"
-                    className="w-full border-orange-300 text-orange-700 hover:bg-orange-50 py-6 text-lg font-semibold"
+                    className="w-full border-2 border-black text-black hover:bg-black hover:text-white py-6 text-xl font-bold transition-all duration-300"
                     disabled={!userName.trim() || !roomCode.trim()}
                   >
-                    <Hash className="mr-2 h-5 w-5" />
+                    <Hash className="mr-3 h-6 w-6" />
                     방 참여하기
                   </Button>
                 </div>
@@ -170,53 +181,44 @@ const Index = () => {
           </Card>
         </div>
 
-        {/* Personas Section */}
-        <div className="mt-16">
-          <h2 className="text-3xl font-bold text-center text-orange-800 mb-8">
-            어떤 타입이세요?
-          </h2>
-          <div className="grid md:grid-cols-4 gap-6">
-            <Card className="border-orange-200 hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="text-2xl mb-2">☕</div>
-                <CardTitle className="text-lg text-orange-700">카페인 애딕트</CardTitle>
+        {/* Quick Tips */}
+        <div className="mt-16 max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-black mb-4">게임 팁</h2>
+            <p className="text-gray-600">미니게임으로 당첨 확률을 조절해보세요!</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center">
+                <div className="text-3xl mb-2">✂️</div>
+                <CardTitle className="text-lg text-black">가위바위보</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600">커피 없으면 멘탈 터지는 자</p>
-                <p className="text-xs text-orange-600 mt-2">→ 최대한 빨리 당첨 확인</p>
+              <CardContent className="text-center">
+                <p className="text-sm text-gray-600 mb-2">승리 시 <span className="font-bold text-green-600">+10%</span></p>
+                <p className="text-xs text-gray-500">빠르고 간단한 운빨 게임</p>
               </CardContent>
             </Card>
 
-            <Card className="border-orange-200 hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="text-2xl mb-2">💸</div>
-                <CardTitle className="text-lg text-orange-700">짠돌 당번 회피러</CardTitle>
+            <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center">
+                <div className="text-3xl mb-2">⏱️</div>
+                <CardTitle className="text-lg text-black">탭 타이밍</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600">돈 쓰기 싫어 증발하려는 자</p>
-                <p className="text-xs text-orange-600 mt-2">→ 낮은 당첨 확률 추구</p>
+              <CardContent className="text-center">
+                <p className="text-sm text-gray-600 mb-2">성공 시 <span className="font-bold text-green-600">+15%</span></p>
+                <p className="text-xs text-gray-500">정확한 타이밍이 관건</p>
               </CardContent>
             </Card>
 
-            <Card className="border-orange-200 hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="text-2xl mb-2">🎮</div>
-                <CardTitle className="text-lg text-orange-700">게임 광신도</CardTitle>
+            <Card className="border border-gray-200 hover:shadow-lg transition-shadow">
+              <CardHeader className="text-center">
+                <div className="text-3xl mb-2">🎯</div>
+                <CardTitle className="text-lg text-black">숫자 맞히기</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600">미니게임만 보고 온 자</p>
-                <p className="text-xs text-orange-600 mt-2">→ 실력 기반 확률 뻥튀기</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-orange-200 hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="text-2xl mb-2">👔</div>
-                <CardTitle className="text-lg text-orange-700">팀 리더</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600">팀 분위기 챙겨야 하는 리더</p>
-                <p className="text-xs text-orange-600 mt-2">→ 공정한 추첨, 빠른 진행</p>
+              <CardContent className="text-center">
+                <p className="text-sm text-gray-600 mb-2">성공 시 <span className="font-bold text-green-600">+20%</span></p>
+                <p className="text-xs text-gray-500">가장 높은 보상, 가장 어려운 난이도</p>
               </CardContent>
             </Card>
           </div>
