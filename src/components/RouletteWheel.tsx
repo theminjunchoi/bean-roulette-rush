@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Coffee } from 'lucide-react';
@@ -47,19 +48,19 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
 
   if (participants.length === 0) {
     return (
-      <div className="flex items-center justify-center h-80 bg-gray-50 rounded-xl border-2 border-gray-200">
+      <div className="flex items-center justify-center h-80 bg-amber-50 rounded-xl border-2 border-amber-200">
         <div className="text-center">
           <div className="text-6xl mb-4">☕</div>
-          <p className="text-gray-500 text-lg">참가자가 없습니다</p>
-          <p className="text-gray-400 text-sm">게임에 참가해보세요!</p>
+          <p className="text-amber-700 text-lg">참가자가 없습니다</p>
+          <p className="text-amber-600 text-sm">게임에 참가해보세요!</p>
         </div>
       </div>
     );
   }
 
   const colors = [
-    '#000000', '#404040', '#606060', '#808080', '#202020', 
-    '#101010', '#303030', '#505050', '#707070', '#909090'
+    '#92400e', '#a16207', '#b45309', '#c2410c', '#dc2626',
+    '#ea580c', '#f59e0b', '#d97706', '#ca8a04', '#b91c1c'
   ];
 
   const totalProbability = participants.reduce((sum, p) => sum + p.winProbability, 0);
@@ -74,7 +75,8 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
       ...participant,
       startAngle,
       endAngle: currentAngle,
-      color: colors[index % colors.length]
+      color: colors[index % colors.length],
+      segmentAngle
     };
   });
 
@@ -98,14 +100,14 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
         {/* Enhanced Pointer */}
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4 z-20">
           <div className="relative">
-            <div className="w-0 h-0 border-l-6 border-r-6 border-b-12 border-l-transparent border-r-transparent border-b-red-600 drop-shadow-lg"></div>
-            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-red-600 rounded-full"></div>
+            <div className="w-0 h-0 border-l-6 border-r-6 border-b-12 border-l-transparent border-r-transparent border-b-amber-800 drop-shadow-lg"></div>
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-amber-800 rounded-full"></div>
           </div>
         </div>
         
         {/* Enhanced Wheel */}
         <motion.div
-          className="w-80 h-80 rounded-full relative overflow-hidden border-8 border-black shadow-2xl bg-white"
+          className="w-80 h-80 rounded-full relative overflow-hidden border-8 border-amber-900 shadow-2xl bg-white"
           animate={{ rotate: rotation }}
           transition={{ 
             duration: isSpinning ? 3 : 0,
@@ -113,8 +115,8 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
           }}
           style={{
             boxShadow: isSpinning 
-              ? '0 0 50px rgba(0,0,0,0.3), 0 0 100px rgba(255,215,0,0.2)' 
-              : '0 20px 40px rgba(0,0,0,0.2)'
+              ? '0 0 50px rgba(146, 64, 14, 0.3), 0 0 100px rgba(251, 191, 36, 0.2)' 
+              : '0 20px 40px rgba(146, 64, 14, 0.2)'
           }}
         >
           <svg width="100%" height="100%" viewBox="0 0 200 200">
@@ -138,8 +140,18 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
               
               const textAngle = (segment.startAngle + segment.endAngle) / 2;
               const textAngleRad = (textAngle - 90) * (Math.PI / 180);
-              const textX = 100 + 60 * Math.cos(textAngleRad);
-              const textY = 100 + 60 * Math.sin(textAngleRad);
+              
+              // Adjust text positioning based on segment size
+              const isSmallSegment = segment.segmentAngle < 45;
+              const textRadius = isSmallSegment ? 70 : 60;
+              const textX = 100 + textRadius * Math.cos(textAngleRad);
+              const textY = 100 + textRadius * Math.sin(textAngleRad);
+              
+              // Determine text size based on segment size
+              const nameFontSize = isSmallSegment ? "11" : "13";
+              const probFontSize = isSmallSegment ? "10" : "12";
+              const nameOffset = isSmallSegment ? -3 : -5;
+              const probOffset = isSmallSegment ? 8 : 10;
               
               return (
                 <g key={segment.id}>
@@ -147,42 +159,47 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
                     d={pathData}
                     fill={segment.color}
                     stroke="white"
-                    strokeWidth="3"
+                    strokeWidth="2"
                   />
-                  {/* Name text */}
-                  <text
-                    x={textX}
-                    y={textY - 5}
-                    fill="white"
-                    fontSize="14"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    transform={`rotate(${textAngle}, ${textX}, ${textY - 5})`}
-                  >
-                    {segment.name.length > 5 ? segment.name.substring(0, 5) + '...' : segment.name}
-                  </text>
-                  {/* Probability text */}
-                  <text
-                    x={textX}
-                    y={textY + 10}
-                    fill="white"
-                    fontSize="12"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    transform={`rotate(${textAngle}, ${textX}, ${textY + 10})`}
-                  >
-                    {segment.winProbability}%
-                  </text>
+                  {/* Only show text if segment is large enough */}
+                  {segment.segmentAngle > 20 && (
+                    <>
+                      {/* Name text */}
+                      <text
+                        x={textX}
+                        y={textY + nameOffset}
+                        fill="white"
+                        fontSize={nameFontSize}
+                        fontWeight="bold"
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        transform={`rotate(${textAngle}, ${textX}, ${textY + nameOffset})`}
+                      >
+                        {segment.name.length > 6 ? segment.name.substring(0, 6) + '...' : segment.name}
+                      </text>
+                      {/* Probability text */}
+                      <text
+                        x={textX}
+                        y={textY + probOffset}
+                        fill="white"
+                        fontSize={probFontSize}
+                        fontWeight="bold"
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        transform={`rotate(${textAngle}, ${textX}, ${textY + probOffset})`}
+                      >
+                        {segment.winProbability}%
+                      </text>
+                    </>
+                  )}
                 </g>
               );
             })}
           </svg>
           
           {/* Center circle */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-black rounded-full border-4 border-white flex items-center justify-center shadow-lg">
-            <Coffee className="h-8 w-8 text-white" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-amber-900 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+            <Coffee className="h-8 w-8 text-amber-50" />
           </div>
         </motion.div>
       </div>
@@ -191,7 +208,7 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
       <div className="mt-8 text-center">
         {isSpinning && (
           <motion.div 
-            className="text-black font-bold text-2xl"
+            className="text-amber-800 font-bold text-2xl"
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ duration: 0.5, repeat: Infinity }}
           >
@@ -200,7 +217,7 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
         )}
         {winner && !isSpinning && (
           <motion.div 
-            className="bg-black text-white p-6 rounded-xl border-4 border-gray-300 shadow-xl"
+            className="bg-gradient-to-r from-amber-800 to-orange-700 text-white p-6 rounded-xl border-4 border-amber-300 shadow-xl"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, type: "spring" }}
@@ -214,7 +231,7 @@ export const RouletteWheel = ({ participants, isSpinning, winner }: RouletteWhee
           </motion.div>
         )}
         {!isSpinning && !winner && participants.length > 0 && (
-          <div className="text-gray-600 text-lg">
+          <div className="text-amber-700 text-lg">
             룰렛을 시작하려면 '룰렛 시작!' 버튼을 클릭하세요
           </div>
         )}
