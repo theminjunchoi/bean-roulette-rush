@@ -1,73 +1,52 @@
-# Welcome to your Lovable project
+# [BeanRoulette](https://bean-roulette-rush.lovable.app/): 랜덤 커피 러시 플랫폼
 
-## Project info
+## 목표
+“누가 살 건데?” 회의 끝나고 머뭇대지 말고, 한 방에 커피 당번 뽑고 가벼운 게임으로 운빨까지 조절하는 팀 놀이터!
 
-**URL**: https://lovable.dev/projects/0b938e75-6a03-4f48-a4fa-3224ee56ae72
+## 핵심 기능
+* **방 생성 & 초대 코드** – 아무나 방 파서 링크 뿌리면 끝
+* **랜덤 커피 당번 추첨** – 참가 버튼 누른 사람 중 한 놈 당첨
+* **완전 랜덤 몰빵 or 게임을 통한 가중치 기반 룰렛**
+* **확률 조절 미니게임** –  
+  * `가위바위보`: 1승당 +10 % 당첨 확률  
+  * `탭 타이밍`: 3초 안에 정해진 박자 탭 성공 시 +15 %  
+  * `숫자 맞히기`: 1~20 중 랜덤 숫자 스나이핑 성공 시 +20 %
+* **실시간 채팅** – 결과 까지 수다 떨 공간
 
-## How can I edit this code?
+## 사용자 페르소나
 
-There are several ways of editing your application.
+| **유형**           | **정의**                       | **니즈**                      | **Pain Points**            |
+| ---------------- | ---------------------------- | --------------------------- | ------------------------- |
+| **카페인 애딕트**   | 커피 없으면 멘탈 터지는 자      | 최대한 빨리 당첨 확인           | 당첨 안 되면 금단증상        |
+| **짠돌 당번 회피러** | 돈 쓰기 싫어 증발하려는 자      | 낮은 당첨 확률, 손쉬운 회피      | 운 나쁘면 계속 걸림          |
+| **게임 광신도**     | 미니게임만 보고 온 자           | 실력 기반 확률 뻥튀기           | 게임이 허접하면 흥미 뚝       |
+| **팀 리더**        | 팀 분위기 챙겨야 하는 리더       | 공정한 추첨, 빠른 진행          | 질질 끌면 시간 낭비          |
 
-**Use Lovable**
+### 사용자 페르소나 상세
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0b938e75-6a03-4f48-a4fa-3224ee56ae72) and start prompting.
+| **사용자 유형**       | **페르소나 상세**                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| **카페인 애딕트**     | **이름:** 이다빈 (27, 마케터)<br>**목표:** 아침 회의 전에 카페인 수혈<br>**니즈:** 즉시 추첨 결과 알림|
+| **짠돌 당번 회피러** | **이름:** 최양락 (31, 백엔드 개발자)<br>**목표:** 지갑 안전 보호<br>**니즈:** 확률 낮추기용 미니게임|
+| **게임 광신도**       | **이름:** 김솔 (24, 인턴)<br>**목표:** 사내 미니게임 챔프 노리기<br>**니즈:** 실력 반영 게임|
+| **팀 리더**          | **이름:** 박지현 (35, 팀장)<br>**목표:** 회의 전에 빠르게 당번 정리<br>**니즈:** 공정·투명·속도|
 
-Changes made via Lovable will be committed automatically to this repo.
+### 사용자 시나리오 & 요구사항
 
-**Use your preferred IDE**
+| **페르소나**          | **시나리오 (사용 흐름)**                                                     | **요구사항**                                                     |
+| ------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **이다빈**           | 사무실 도착 → 방 링크 클릭 → 참가 → 바로 추첨 결과 확인                             | 1. 즉시 추첨<br>2. 결과 알림                                          |
+| **최양락**           | 점심 전 → 방 참여 → `가위바위보`로 연패해서 확률 낮추기 시도 → 안 걸려서 만족             | 1. 미니게임 선택<br>2. 패배 시 확률 감소(최소 1 %)                       |
+| **김솔**             | 오후 브레인스토밍 → 방 개설 요청 → `탭 타이밍` 미친 템포 성공 → 당첨 확률 뻥튀기 → 결국 커피 삼 | 1. 고난이도 미니게임<br>2. 성공 보상 확률 +15 % 이상                     |
+| **박지현**           | 회의 전 5분 → 방 생성 & 팀원 소환 → 추첨 & 결제 링크 전송                              | 1. 빠른 방 생성<br>2. 결과 자동 공유<br>3. 결제 링크(카카오페이·토스 등) |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 사용자 스토리
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+**나는야 카페인 필수 인간 – 이다빈**
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/0b938e75-6a03-4f48-a4fa-3224ee56ae72) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+* **요구사항:** 즉시 추첨 & 결과 알림
+* **스토리:** "커피 빨리 먹어야 정신 차려. 방 입장하자마자 누가 살지 바로 떠야 해!"
+* **인수조건:**
+  * **Given:** 다빈, 월요일 9 : 00, 팀원들과 방 링크 공유됨
+  * **When:** 방 입장 후 ‘참가’ 버튼 클릭
+  * **Then:** 3초 안에 당첨자 표시, 본인 미당첨 시 그대로 업무 몰입
